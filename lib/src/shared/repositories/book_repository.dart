@@ -10,8 +10,13 @@ class BookRepository {
   Future<List<Book>> getBooksByTerm(String term) async {
     try {
       Volumes volume;
-      var result = await httpService.get(url: '?q=$term');
+      var result = await httpService.get(url: '?q=$term&maxResults=40');
+      if(result.statusCode == 200){
+
       volume = Volumes.fromJson(result.body);
+      }else{
+        volume = Volumes();
+      }
 
       return volume.items!;
     } catch (e) {

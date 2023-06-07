@@ -12,8 +12,8 @@ class SharedUtils {
 
   Future<List<Book>> getFavoritesBooks() async {
     List<Book> books = [];
-
-    if (localStorage.contains(key: sharedKey)){
+    bool contain = await localStorage.contains(key: sharedKey);
+    if (contain){
       var booksJson = json.decode(await localStorage.load(key: sharedKey) as String) as List;
 
       books = booksJson.map((book) => Book.fromJson(book)).toList();
@@ -24,8 +24,8 @@ class SharedUtils {
 
   Future<void> saveFavoriteBook(Book book) async {
     List<Book> books = [];
-
-    if (localStorage.contains(key: sharedKey)){
+     bool contain = await localStorage.contains(key: sharedKey);
+    if (contain){
       var booksJson = json.decode(await localStorage.load(key: sharedKey) as String) as List;
 
       books = booksJson.map((book) => Book.fromJson(book)).toList();

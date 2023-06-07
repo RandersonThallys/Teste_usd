@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_ambev/src/models/book.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsBookPage extends StatefulWidget {
   final Book book;
@@ -13,6 +14,12 @@ class DetailsBookPage extends StatefulWidget {
 }
 
 class _DetailsBookPageState extends State<DetailsBookPage> {
+  Future<void> _launchUrl(String url) async {
+    if (await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +45,12 @@ class _DetailsBookPageState extends State<DetailsBookPage> {
                   left: 300,
                   top: 210,
                   child: ElevatedButton(
-                    child: const Text('\$ Comprar '),
-                    onPressed: () {},
-                  ),
+                      onPressed: widget.book.saleInfo!.saleability == 'FOR_SALE'
+                          ? () async {
+                              _launchUrl(widget.book.saleInfo!.buyLink!);
+                            }
+                          : null,
+                      child: const Text('\$ Comprar ')),
                 ),
                 Positioned(
                   child: Center(
@@ -92,9 +102,10 @@ class _DetailsBookPageState extends State<DetailsBookPage> {
                           ),
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.favorite,
-                        color: Colors.red,
+                        color:
+                            widget.book.isFavorite ? Colors.red : Colors.grey,
                       ),
                     ],
                   ),

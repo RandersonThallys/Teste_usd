@@ -7,11 +7,13 @@ class Volumes {
   String? kind;
   int? totalItems;
   List<Book>? items;
-  Volumes({
-    this.kind,
-    this.totalItems,
-    this.items,
-  });
+  Volumes({this.kind, this.totalItems, items}) {
+    if (items == null) {
+      this.items = [];
+    } else {
+      this.items = items;
+    }
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

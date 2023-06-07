@@ -15,6 +15,7 @@ class Book {
   SaleInfo? saleInfo;
   AccessInfo? accessInfo;
   SearchInfo? searchInfo;
+  bool isFavorite;
   Book({
     this.kind,
     this.id,
@@ -24,6 +25,7 @@ class Book {
     this.saleInfo,
     this.accessInfo,
     this.searchInfo,
+    this.isFavorite = false
   });
 
   Map<String, dynamic> toMap() {
@@ -36,6 +38,7 @@ class Book {
       'saleInfo': saleInfo?.toMap(),
       'accessInfo': accessInfo?.toMap(),
       'searchInfo': searchInfo?.toMap(),
+      'isFavorite': isFavorite,
     };
   }
 
@@ -49,6 +52,7 @@ class Book {
       saleInfo: map['saleInfo'] != null ? SaleInfo.fromMap(map['saleInfo'] as Map<String,dynamic>) : null,
       accessInfo: map['accessInfo'] != null ? AccessInfo.fromMap(map['accessInfo'] as Map<String,dynamic>) : null,
       searchInfo: map['searchInfo'] != null ? SearchInfo.fromMap(map['searchInfo'] as Map<String,dynamic>) : null,
+      isFavorite: map['isFavorite'] ?? false,
     );
   }
 

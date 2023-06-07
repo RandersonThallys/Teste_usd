@@ -5,10 +5,12 @@ class SaleInfo {
   String? country;
   String? saleability;
   bool? isEbook;
+  String? buyLink;
   SaleInfo({
     this.country,
     this.saleability,
     this.isEbook,
+    this.buyLink
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +26,7 @@ class SaleInfo {
       country: map['country'] != null ? map['country'] as String : null,
       saleability: map['saleability'] != null ? map['saleability'] as String : null,
       isEbook: map['isEbook'] != null ? map['isEbook'] as bool : null,
+      buyLink: map['buyLink'] ?? ''
     );
   }
 

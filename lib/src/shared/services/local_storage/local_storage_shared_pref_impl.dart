@@ -2,12 +2,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_ambev/src/shared/services/local_storage/local_storage.dart';
 
 class LocalStorageSharedPrefImpl extends LocalStorage {
-  final SharedPreferences sharedPref;
+  late SharedPreferences sharedPref;
 
-  LocalStorageSharedPrefImpl({required this.sharedPref});
+  LocalStorageSharedPrefImpl();
 
   @override
   Future load({required String key}) async {
+    sharedPref = await SharedPreferences.getInstance();
     try {
       return sharedPref.get(key);
     } catch (e) {
@@ -16,7 +17,8 @@ class LocalStorageSharedPrefImpl extends LocalStorage {
   }
 
   @override
-  Future<bool> remove({required String key})async {
+  Future<bool> remove({required String key}) async {
+    sharedPref = await SharedPreferences.getInstance();
     try {
       return await sharedPref.remove(key);
     } catch (e) {
@@ -25,31 +27,31 @@ class LocalStorageSharedPrefImpl extends LocalStorage {
   }
 
   @override
-  Future<bool> save({required String key, required value}) async{
+  Future<bool> save({required String key, required value}) async {
+    sharedPref = await SharedPreferences.getInstance();
     try {
       switch (value.runtimeType) {
         case String:
           return sharedPref.setString(key, value);
-          case bool:
+        case bool:
           return sharedPref.setBool(key, value);
-          case double:
+        case double:
           return sharedPref.setDouble(key, value);
-          case int:
+        case int:
           return sharedPref.setInt(key, value);
-          case const (List<String>):
+        case const (List<String>):
           return sharedPref.setStringList(key, value);
         default:
-          throw('Tipo invalido!');
+          throw ('Tipo invalido!');
       }
-      
-      
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  bool contains({required String key}) {
+  Future<bool> contains({required String key}) async{
+    sharedPref = await SharedPreferences.getInstance();
     try {
       return sharedPref.containsKey(key);
     } catch (e) {
